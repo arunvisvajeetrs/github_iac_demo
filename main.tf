@@ -1,22 +1,46 @@
-import {
-  to = github_repository.tictactoe
-  id = "tictactoe"
+locals {
+  repositories = [
+    {
+      name        = "tictactoe"
+      description = "Add description"
+
+      visibility = "public"
+    },
+    {
+      name        = "Test_Actions"
+      description = "This github repository is used for testing github actions"
+
+      visibility = "public"
+    },
+  ]
 }
 
-resource "github_repository" "tictactoe" {
-  name        = "tictactoe"
-  description = "Add description"
+import {
+  for_each = { for repo in local.repositories : repo.name => repo }
+  to = github_repository.manage_repos[each.value.name]
+  id = each.key
+}
 
-  visibility = "public"
+resource "github_repository" "manage_repos" {
+  for_each = { for repo in local.repositories : repo.name => repo }
+  name        = each.value.name
+  description = each.value.description
+
+  visibility = each.value.visibility
+
+  allow_auto_merge       = true
+  delete_branch_on_merge = true
 
 }
 import {
-  to = github_branch_protection.bp
-  id = "tictactoe:main"
+  for_each = { for repo in local.repositories : repo.name => repo }
+  to = github_branch_protection.bp[each.value.name]
+  id = "${each.key}:main"
 }
 
 resource "github_branch_protection" "bp" {
-  repository_id = github_repository.tictactoe.node_id
+  for_each = { for repo in local.repositories : repo.name => repo }
+  repository_id = github_repository.manage_repos[each.key].node_id
   # also accepts repository name
   # repository_id  = github_repository.example.name
 
@@ -33,43 +57,3 @@ resource "github_branch_protection" "bp" {
   allows_force_pushes             = false
 
 }
-import {
-  to = github_repository.Test_Actions
-  id = "Test_Actions"
-}
-
-import {
-  to = github_branch_protection.bp_2
-  id = "Test_Actions:main"
-}
-
-resource "github_repository" "Test_Actions" {
-  name        = "Test_Actions"
-  description = "Random description"
-
-  visibility = "public"
-  allow_auto_merge       = true
-  delete_branch_on_merge = true
-}
-
-resource "github_branch_protection" "bp_2" {
-  repository_id = github_repository.Test_Actions.node_id
-  # also accepts repository name
-  # repository_id  = github_repository.example.name
-
-  pattern                 = "main"
-  enforce_admins          = true
-  allows_deletions        = false
-  required_linear_history = true
-
-  required_pull_request_reviews {
-    dismiss_stale_reviews = true
-
-  }
-  require_conversation_resolution = true
-  allows_force_pushes             = false
-
-}
-
-
-
