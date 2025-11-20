@@ -23,14 +23,12 @@ You need Terraform installed locally to run this demo.
   ```bash
   brew install terraform
   ```
-  _Homebrew installs Terraform faster than macOS nags you for the next OS update._
 
 - **Windows:**
 Download the installer from Terraform Releases.
-_Yes, Windows will ask you 3 “Are you sure?” dialogs and maybe reboot twice — just normal Windows fun._
     
 - **Linux:**
-`sudo apt-get install terraform`_Or you probably already compiled it from source last week._
+`sudo apt-get install terraform`
     
 
 ### 2\. GitHub Repository
@@ -38,7 +36,7 @@ _Yes, Windows will ask you 3 “Are you sure?” dialogs and maybe reboot twice 
 *   Create a GitHub repository (or use an existing one)
     
 *   Use the Terraform .gitignore template to avoid committing state files or secrets 
-_Trust me, committing your terraform.tfstate is career suicide._
+
     
 
 ### 3\. GitHub Personal Access Token (PAT)
@@ -61,7 +59,7 @@ Running Locally
 
 1.  
     ```bash
-    git clone https://github.com//.gitcd
+    git clone git@github.com:arunvisvajeetrs/github_iac_demo.git
     ```
     
 2.  
@@ -71,11 +69,11 @@ Running Locally
     
 3.  
     ```bash
-    terraform plan -out=plan.outterraform show -no-color plan.out > plan.txt
+    terraform plan
     ```
 4.  
     ```bash
-    terraform apply plan.out
+    terraform apply
     ```   
 
 > ⚠️ Always review terraform plan before applying. It can modify repository settings, branch protections, and custom variables.
