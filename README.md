@@ -1,4 +1,4 @@
-# Terraform GitHub Repo Management
+# IaC for Github
 
 Manage multiple GitHub repository settings using Terraform and automate workflows with GitHub Actions.  
 
