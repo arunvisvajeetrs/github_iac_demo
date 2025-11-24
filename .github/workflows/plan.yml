@@ -22,4 +22,19 @@ jobs:
 
       - name: Terraform Plan
         run: |
-          terraform plan
+          terraform plan -out=plan.out
+          terraform show -no-color plan.out > plan.txt
+
+      - name: Extract summary
+        id: summary
+        run: |
+          SUMMARY=$(grep '^Plan:' plan.txt)
+          echo "summary=$SUMMARY" >> $GITHUB_OUTPUT
+          
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: |
+          gh pr comment "$PR_URL" --body "🧪 Terraform Plan Summary: ${{ steps.summary.outputs.summary }}"
