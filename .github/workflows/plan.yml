@@ -22,8 +22,9 @@ jobs:
 
       - name: Terraform Plan
         run: |
-          terraform plan
-          
+          terraform plan -plan.out
+          terraform show -no-color plan.out > plan.txt
+
       - name: Extract summary
         id: summary
         run: |
