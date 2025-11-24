@@ -48,6 +48,6 @@ resource "github_branch_protection" "bp" {
 
   pattern          = "main"
   enforce_admins   = true
-  allows_deletions = true
+  allows_deletions = false
 
 }
