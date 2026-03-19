@@ -10,7 +10,7 @@ locals {
     {
       id          = "Test_Actions"
       name        = "Test_Actions"
-      description = "Practice react with tictactoe"
+      description = "Repo to test github actions"
 
       visibility = "public"
     }
@@ -45,13 +45,11 @@ import{
 resource "github_branch_protection" "bp" {
   for_each = { for repo in local.repositories : repo.id => repo }
   repository_id = github_repository.manage_repos[each.value.name].node_id
-  # also accepts repository name
-  # repository_id  = github_repository.example.name
 
   pattern          = "main"
   enforce_admins   = true
   allows_deletions = false
   allows_force_pushes = false
   required_linear_history = true
-  require_conversation_resolution = true
+  require_conversation_resolution = false
 }
