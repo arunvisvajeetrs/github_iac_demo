@@ -48,7 +48,7 @@ Download the installer from Terraform Releases.
     *   workflow (if using GitHub Actions for Terraform apply)
         
 *   Store it in GitHub Actions secrets as IAC\_GITHUB\_TOKEN_GitHub calls it 
-> ⚠️ The variable should begin with `TF_VAR_` for the terraform to pick it
+> ⚠️ The variable should begin with `TF_VAR_` for the terraform to pick it.
 
 ### 4\. VS Code (or any editor)
 
