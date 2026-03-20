@@ -14,7 +14,7 @@ provider "github" {
 }
 
 variable "iac_github_token" {
-  description = "The github token for atuh"
+  description = "The github token for auth"
   type = string
   sensitive = true
 }
